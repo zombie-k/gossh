@@ -1,6 +1,7 @@
 package ssh
 
 import (
+	"errors"
 	"flag"
 	"github.com/BurntSushi/toml"
 )
@@ -34,7 +35,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&confPath, "conf", "ssh/ssh.toml", "default config path")
+	flag.StringVar(&confPath, "conf", "", "default config path")
 	flag.StringVar(&_user, "user", "", "user")
 	flag.StringVar(&_password, "password", "", "password")
 	flag.StringVar(&_privateKey, "key", "", "private key path")
@@ -66,5 +67,15 @@ func Init() (err error) {
 	} else {
 		_, err = toml.DecodeFile(confPath, &Conf)
 	}
+	return
+}
+
+func Init2(path string) (conf *Config, err error) {
+	if path == "" {
+		err = errors.New("config path is nil")
+		return
+	}
+
+	_, err = toml.DecodeFile(path, &conf)
 	return
 }
