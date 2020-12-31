@@ -12,8 +12,9 @@ type Config struct {
 	Timeout     int64
 	Ciphers     []string
 	RemoteHosts string
-	Cmd 		string
-	EchoIp 		bool
+	Cmd         string
+	EchoIp      bool
+	IdRsa       string
 }
 
 type RemoteHost struct {

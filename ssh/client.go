@@ -45,12 +45,18 @@ func NewSshClient(conf *Config) (*Client, error) {
 		Timeout:         time.Duration(conf.Timeout) * time.Second,
 	}
 	sshConfig.SetDefaults()
-	if conf.PrivateKey == "" {
+	if conf.PrivateKey == "" && conf.IdRsa == "" {
 		sshConfig.Auth = append(sshConfig.Auth, ssh.Password(conf.Password))
 	} else {
-		pemBytes, err := ioutil.ReadFile(conf.PrivateKey)
-		if err != nil {
-			return nil, err
+		var pemBytes []byte
+		var err error
+		if conf.IdRsa != "" {
+			pemBytes = []byte(conf.IdRsa)
+		} else {
+			pemBytes, err = ioutil.ReadFile(conf.PrivateKey)
+			if err != nil {
+				return nil, err
+			}
 		}
 		var signer ssh.Signer
 		if conf.Password == "" {
@@ -88,6 +94,39 @@ func NewSshClient(conf *Config) (*Client, error) {
 	}
 
 	return client, nil
+}
+
+func (cli *Client) RegInfoHostsStr(remoteHosts string) {
+	for _, v := range strings.Split(remoteHosts, ",") {
+		addrPort := strings.Split(strings.TrimSpace(v), ":")
+		addr := addrPort[0]
+		port := 22
+		if len(addrPort) == 2 {
+			port, _ = strconv.Atoi(addrPort[1])
+		}
+		cli.Infos = append(cli.Infos, &Info{
+			Addr: addr,
+			Port: port,
+		})
+	}
+	return
+}
+
+// call RegInfoHostsSlice,RegInfoHostsStr before Connect
+func (cli *Client) RegInfoHostsSlice(remoteHosts ...string) {
+	for _, v := range remoteHosts {
+		addrPort := strings.Split(strings.TrimSpace(v), ":")
+		addr := addrPort[0]
+		port := 22
+		if len(addrPort) == 2 {
+			port, _ = strconv.Atoi(addrPort[1])
+		}
+		cli.Infos = append(cli.Infos, &Info{
+			Addr: addr,
+			Port: port,
+		})
+	}
+	return
 }
 
 func (cli *Client) Connect() {

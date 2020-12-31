@@ -6,7 +6,7 @@ import (
 	gossh "gossh/ssh"
 )
 
-func main(){
+func main() {
 	flag.Parse()
 	if err := gossh.Init(); err != nil {
 		panic(err)

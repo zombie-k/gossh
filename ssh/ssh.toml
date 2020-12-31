@@ -1,0 +1,45 @@
+#登录用户名
+User = ""
+#密码
+Password = ""
+#私钥路径 优先级大于密码
+Privatekey = ""
+#链接超时时间
+Timeout = 10
+#ssh链接远端主机列表ip:port(缺省22) eg: 192.168.1.1:22,192.168.1.2:22,192.168.1.3,192.168.1.4
+RemoteHosts = ""
+#回显是否增加ip前缀
+EchoIp = true
+#远端执行命令
+Cmd = "pwd"
+
+
+#私钥 优先级大于私钥路径
+IdRsa="""
+-----BEGIN RSA PRIVATE KEY-----
+MIIEpAIBAAKCAQEAqNBJZwaLUFNKeRWRtPGUDuYgqo1Ph0DqIPCYdY5NCWpBJ4Xm
+NOgQsD/TbFTMFx7b99oQVt7w0PrAY1W1cgvXsuC+vPZX96nnRPYXoNVzBwChD7rp
+j+eOvxa/8P7v3L8ul/GC/Zg9bG7l2R/+4Z8w752usegi+U6EVHuJ8wZd5k2hkpC8
+D2ueDdgOcqu1dni5eZhGOK+7SZ1Rhdjqlw0VlG83QeUcXcE17WVxCVLGvuM/8ZIQ
+z1uP+NMyIVXzufAMkOX0qzFvSZndV8avy1zxMzDUGIOpaOqROjVgke2Zwe9hAofE
+VihY6OQx7azG/rsMFDhdFOQYIYW+EdlyKA+eCQIDAQABAoIBAARm8hMSs51TnrSL
+oHIUfqTo0V9BMhq30aMsQv2FyXJ+Z9aNAlTM3GqML4o6p9vOfTP4ZsatJ6B7eXrd
+qE6iCmzquW6aCe82agZ9WF5kUoyTMqADYsXS5wEKqdSyATVDcwaZUK4mQyvJtIq1
+7+KYUSFefki7YfYYWxEM66r/toEj6EQc7wGCukPN9YcLsO0DqEpqaKiuTdjrdjZE
+QkqKhF7sfFS7w9VJ8lwO6DdADlagNfJ//Fw8OV370QGoR7ZpevO/CU0Qw303i/8G
+Fgeu0aOhqNkUhlMLySP5uORPUWf4vJFkrEMVEgvl/RTnvRf6LLfSokiNHLz8gNt9
+w/FoepECgYEAz1kxc8uz6sf4K87AVP4gkQ3IgxEB7+9J6EbRSioHqzcFF1gFCC4Q
+M+4hx+4RvAPA3pUh3NoGbBCSkXbUbZQ126OEdijz5s5ZdRpKh4FMp6ZKJXlzoUgm
+hcFUZqucGla/NBg2jjHJQrEhHlAnFR3hGOq7F1p7pEp9DxyeYuNnl6UCgYEA0Gxs
+JZhkTEiv5q8fD3ma674+cyaix7lmQ/zmSd/LAjDyZm8tvNj+NHo0yjAI7iry9Y1I
+FCsr2zm2qu5R+8hgQmtcPofsQtRf1Q5JhL9gOs2RYHecVEnLDqdV/HD/TX5XMPC4
+6+Fc+GnJ0gVbc+fZ/tiybws89/HPooaWq1Qr/5UCgYBV+JBlh69oiFMgrs/WLawJ
+GKLrnRClkByfv0Ulr/mQBvcIb8leU+MJ9RFymQYnY5MDdugcbxW8lr5+q7t2V75g
+/BJ+/4npR+OVhzohpv3GgU867HmCBK1cRgWdsEfAL/mFOwjbuk7NZS3rKKabvdDI
+CQNbsnuTagMiUeZl8A3StQKBgQC5qmwojXmDjxjLSeNEeNKuALpG//rwKlNUa1yG
+IIsKt6mn4JCA81h4TQjruCCscawfXC0CcnbOArqbyFNWFOjTIip5NcIcwm1gMSsC
+yyyhFXDU25hyaY4uzphFmi+Dy/FGEprY3dhhHnP/2G/gb4B9inJhg0Rbp5iMspJT
+q1bKhQKBgQDPVg+6E4q/d2vaTR7bTtkrsxmREXp5UGKSViidibHPqJDpGMFSZ24G
+8x0BoO+uMKPpXtlAsiYWxvLmzrtj67XZ6k/Yx2DRpbsP9+M3Drn7Wuu6H4NzyeBb
+r9+5jx+f64VmTndF3z8QtZHKo6SgTE6CgBzf/JC6F6V6dJwM6NF1BA==
+-----END RSA PRIVATE KEY-----"""
