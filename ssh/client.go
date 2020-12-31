@@ -5,7 +5,10 @@ import (
 	"fmt"
 	"golang.org/x/crypto/ssh"
 	"io/ioutil"
+	"strconv"
+	"strings"
 	"sync"
+	"time"
 )
 
 type Client struct {
@@ -39,7 +42,7 @@ func NewSshClient(conf *Config) (*Client, error) {
 		User:            conf.User,
 		Auth:            make([]ssh.AuthMethod, 0),
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
-		Timeout:         conf.Timeout,
+		Timeout:         time.Duration(conf.Timeout) * time.Second,
 	}
 	sshConfig.SetDefaults()
 	if conf.PrivateKey == "" {
@@ -65,10 +68,16 @@ func NewSshClient(conf *Config) (*Client, error) {
 	}
 	client.SshConf = sshConfig
 
-	for _, v := range conf.RemoteHosts {
+	for _, v := range strings.Split(conf.RemoteHosts, ",") {
+		addrPort := strings.Split(strings.TrimSpace(v), ":")
+		addr := addrPort[0]
+		port := 22
+		if len(addrPort) == 2 {
+			port, _ = strconv.Atoi(addrPort[1])
+		}
 		client.Infos = append(client.Infos, &Info{
-			Addr: v.Addr,
-			Port: v.Port,
+			Addr: addr,
+			Port: port,
 		})
 	}
 

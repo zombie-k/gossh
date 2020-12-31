@@ -7,12 +7,15 @@ import (
 
 func TestClient_MultiRun(t *testing.T) {
 	flag.Parse()
-	_ = Init()
+	if err := Init(); err != nil {
+		panic(err)
+		return
+	}
 	client, _ := NewSshClient(Conf)
 	client.Connect()
 	defer client.Close()
 
-	cmd := "pwd"
+	cmd := "sudo docker ps"
 
 	out := make(chan *EchoMsg, 2000)
 	client.MultiRun(cmd, out)
