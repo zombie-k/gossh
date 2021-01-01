@@ -1,5 +1,5 @@
 #登录用户名
-User = ""
+User = "yaowei"
 #密码
 Password = ""
 #私钥路径 优先级大于密码
@@ -7,11 +7,11 @@ Privatekey = ""
 #链接超时时间
 Timeout = 10
 #ssh链接远端主机列表ip:port(缺省22) eg: 192.168.1.1:22,192.168.1.2:22,192.168.1.3,192.168.1.4
-RemoteHosts = ""
+RemoteHosts = "10.85.132.235,10.85.132.217"
 #回显是否增加ip前缀
 EchoIp = true
 #远端执行命令
-Cmd = "pwd"
+Cmd = "echo \"\""
 
 
 #私钥 优先级大于私钥路径

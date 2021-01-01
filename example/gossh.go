@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	gossh "gossh/ssh"
+	"github.com/zombie-k/gossh"
 )
 
 func main() {
