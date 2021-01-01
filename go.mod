@@ -1,4 +1,4 @@
-module gossh
+module github.com/zombie-k/gossh
 
 go 1.14
 
