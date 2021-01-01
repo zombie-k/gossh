@@ -20,6 +20,9 @@ func main() {
 	client.MultiRun(gossh.Conf.Cmd, out)
 	for v := range out {
 		if gossh.Conf.EchoIp {
+			if len(v.Content) == 0 {
+				continue
+			}
 			fmt.Printf("%s=:>%s", v.Addr, v.Content)
 		} else {
 			fmt.Printf("%s", v.Content)

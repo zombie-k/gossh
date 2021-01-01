@@ -29,6 +29,7 @@ type Info struct {
 type EchoMsg struct {
 	Addr    string
 	Content string
+	err     error
 }
 
 func NewSshClient(conf *Config) (*Client, error) {
@@ -173,12 +174,11 @@ func (cli *Client) MultiRun(cmd string, out chan<- *EchoMsg) {
 		v.Session.Stdout = &stdoutBuf
 		go func() {
 			defer wg.Done()
-			if err := v.Session.Run(cmd); err != nil {
-				fmt.Printf("run cmd:%s info:%v error:%+v\n", cmd, v, err)
-			}
+			err := v.Session.Run(cmd)
 			msg := &EchoMsg{
 				Addr:    v.Addr,
 				Content: fmt.Sprint(v.Session.Stdout),
+				err:     err,
 			}
 			out <- msg
 		}()
