@@ -159,8 +159,8 @@ func (cli *Client) Run(cmd string) {
 	for _, v := range cli.Infos {
 		var stdoutBuf bytes.Buffer
 		v.Session.Stdout = &stdoutBuf
-		if v.Cmd != "" {
-			cmd = v.Cmd
+		if v.Cmd == "" {
+			v.Cmd = cmd
 		}
 		err := v.Session.Run(cmd)
 		if err != nil {
@@ -180,10 +180,10 @@ func (cli *Client) MultiRun(cmd string, out chan<- *EchoMsg) {
 		v.Session.Stdout = &stdoutBuf
 		go func() {
 			defer wg.Done()
-			if v.Cmd != "" {
-				cmd = v.Cmd
+			if v.Cmd == "" {
+				v.Cmd = cmd
 			}
-			err := v.Session.Run(cmd)
+			err := v.Session.Run(v.Cmd)
 			msg := &EchoMsg{
 				Addr:    v.Addr,
 				Content: fmt.Sprint(v.Session.Stdout),
