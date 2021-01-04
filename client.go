@@ -24,6 +24,7 @@ type Info struct {
 	Port    int
 	Client  *ssh.Client
 	Session *ssh.Session
+	Cmd     string
 }
 
 type EchoMsg struct {
@@ -97,7 +98,7 @@ func NewSshClient(conf *Config) (*Client, error) {
 	return client, nil
 }
 
-func (cli *Client) RegInfoHostsStr(remoteHosts string) {
+func (cli *Client) RegInfoHostsStr(remoteHosts string, cmd string) {
 	for _, v := range strings.Split(remoteHosts, ",") {
 		addrPort := strings.Split(strings.TrimSpace(v), ":")
 		addr := addrPort[0]
@@ -108,13 +109,14 @@ func (cli *Client) RegInfoHostsStr(remoteHosts string) {
 		cli.Infos = append(cli.Infos, &Info{
 			Addr: addr,
 			Port: port,
+			Cmd:  cmd,
 		})
 	}
 	return
 }
 
 // call RegInfoHostsSlice,RegInfoHostsStr before Connect
-func (cli *Client) RegInfoHostsSlice(remoteHosts ...string) {
+func (cli *Client) RegInfoHostsSlice(cmd string, remoteHosts ...string) {
 	for _, v := range remoteHosts {
 		addrPort := strings.Split(strings.TrimSpace(v), ":")
 		addr := addrPort[0]
@@ -125,6 +127,7 @@ func (cli *Client) RegInfoHostsSlice(remoteHosts ...string) {
 		cli.Infos = append(cli.Infos, &Info{
 			Addr: addr,
 			Port: port,
+			Cmd:  cmd,
 		})
 	}
 	return
@@ -156,6 +159,9 @@ func (cli *Client) Run(cmd string) {
 	for _, v := range cli.Infos {
 		var stdoutBuf bytes.Buffer
 		v.Session.Stdout = &stdoutBuf
+		if v.Cmd != "" {
+			cmd = v.Cmd
+		}
 		err := v.Session.Run(cmd)
 		if err != nil {
 			fmt.Printf("run error.%v", err)
@@ -174,6 +180,9 @@ func (cli *Client) MultiRun(cmd string, out chan<- *EchoMsg) {
 		v.Session.Stdout = &stdoutBuf
 		go func() {
 			defer wg.Done()
+			if v.Cmd != "" {
+				cmd = v.Cmd
+			}
 			err := v.Session.Run(cmd)
 			msg := &EchoMsg{
 				Addr:    v.Addr,
