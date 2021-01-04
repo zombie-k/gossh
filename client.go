@@ -98,7 +98,7 @@ func NewSshClient(conf *Config) (*Client, error) {
 	return client, nil
 }
 
-func (cli *Client) RegInfoHostsStr(remoteHosts string, cmd string) {
+func (cli *Client) RegInfoHostsStr(cmd string, remoteHosts string) {
 	for _, v := range strings.Split(remoteHosts, ",") {
 		addrPort := strings.Split(strings.TrimSpace(v), ":")
 		addr := addrPort[0]
