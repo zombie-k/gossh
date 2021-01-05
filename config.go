@@ -35,7 +35,7 @@ var (
 )
 
 func init() {
-	flag.StringVar(&confPath, "conf", "", "default config path")
+	flag.StringVar(&confPath, "c", "", "default config path")
 	flag.StringVar(&_user, "user", "", "user")
 	flag.StringVar(&_password, "password", "", "password")
 	flag.StringVar(&_privateKey, "key", "", "private key path")
