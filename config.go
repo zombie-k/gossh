@@ -30,8 +30,8 @@ var (
 	_password    string
 	_privateKey  string
 	_timeout     int64
-	_ciphers     string
 	_remoteHosts string
+	_cmd         string
 )
 
 func init() {
@@ -41,6 +41,7 @@ func init() {
 	flag.StringVar(&_privateKey, "key", "", "private key path")
 	flag.Int64Var(&_timeout, "timeout", 10, "timeout")
 	flag.StringVar(&_remoteHosts, "host", "10.85.132.235,10.85.132.217", "remote ssh ip and port. eg:'127.0.0.1:22,127.0.0.2:22'")
+	flag.StringVar(&_cmd, "cmd", "", "exec command")
 }
 
 /*
@@ -66,6 +67,10 @@ func Init() (err error) {
 		}
 	} else {
 		_, err = toml.DecodeFile(confPath, &Conf)
+	}
+
+	if _cmd != "" {
+		Conf.Cmd = _cmd
 	}
 	return
 }
