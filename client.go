@@ -173,9 +173,12 @@ func (cli *Client) Run(cmd string) {
 func (cli *Client) MultiRun(cmd string, out chan<- *EchoMsg) {
 	defer close(out)
 	wg := new(sync.WaitGroup)
-	wg.Add(len(cli.Infos))
 	for _, sess := range cli.Infos {
 		v := sess
+		if v.Session == nil {
+			continue
+		}
+		wg.Add(1)
 		var stdoutBuf bytes.Buffer
 		v.Session.Stdout = &stdoutBuf
 		go func() {
@@ -197,8 +200,10 @@ func (cli *Client) MultiRun(cmd string, out chan<- *EchoMsg) {
 
 func (cli *Client) Close() {
 	for _, v := range cli.Infos {
-		if err := v.Client.Close(); err != nil {
-			fmt.Printf("close error. %v", err)
+		if v.Client != nil {
+			if err := v.Client.Close(); err != nil {
+				fmt.Printf("close error. %v", err)
+			}
 		}
 	}
 }
