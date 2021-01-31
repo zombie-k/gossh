@@ -7,15 +7,16 @@ import (
 )
 
 type Config struct {
-	User        string
-	Password    string
-	PrivateKey  string
-	Timeout     int64
-	Ciphers     []string
-	RemoteHosts string
-	Cmd         string
-	EchoIp      bool
-	IdRsa       string
+	User           string
+	Password       string
+	PrivateKey     string
+	Timeout        int64
+	Ciphers        []string
+	RemoteHosts    string
+	Cmd            string
+	EchoIp         bool
+	IdRsa          string
+	ReplacePattern string
 }
 
 type RemoteHost struct {

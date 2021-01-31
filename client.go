@@ -12,6 +12,7 @@ import (
 )
 
 type Client struct {
+	c       *Config
 	SshConf *ssh.ClientConfig
 	Infos   []*Info
 	Modes   *ssh.TerminalModes
@@ -35,6 +36,7 @@ type EchoMsg struct {
 
 func NewSshClient(conf *Config) (*Client, error) {
 	client := &Client{
+		c:     conf,
 		Infos: make([]*Info, 0),
 		Ch:    make(chan *EchoMsg, 1000),
 		wg:    new(sync.WaitGroup),
@@ -185,6 +187,9 @@ func (cli *Client) MultiRun(cmd string, out chan<- *EchoMsg) {
 			defer wg.Done()
 			if v.Cmd == "" {
 				v.Cmd = cmd
+			}
+			if cli.c.ReplacePattern != "" {
+				v.Cmd = strings.ReplaceAll(v.Cmd, cli.c.ReplacePattern, v.Addr)
 			}
 			err := v.Session.Run(v.Cmd)
 			msg := &EchoMsg{
