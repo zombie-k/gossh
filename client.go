@@ -78,19 +78,21 @@ func NewSshClient(conf *Config) (*Client, error) {
 	}
 	client.SshConf = sshConfig
 
-	remoteSlice := strings.Split(conf.RemoteHosts, ",")
-	if len(remoteSlice) > 0 {
+	if conf.RemoteHosts != "" {
+		remoteSlice := strings.Split(conf.RemoteHosts, ",")
 		for _, v := range remoteSlice {
-			addrPort := strings.Split(strings.TrimSpace(v), ":")
-			addr := addrPort[0]
-			port := 22
-			if len(addrPort) == 2 {
-				port, _ = strconv.Atoi(addrPort[1])
+			if v != "" {
+				addrPort := strings.Split(strings.TrimSpace(v), ":")
+				addr := addrPort[0]
+				port := 22
+				if len(addrPort) == 2 {
+					port, _ = strconv.Atoi(addrPort[1])
+				}
+				client.Infos = append(client.Infos, &Info{
+					Addr: addr,
+					Port: port,
+				})
 			}
-			client.Infos = append(client.Infos, &Info{
-				Addr: addr,
-				Port: port,
-			})
 		}
 	}
 
