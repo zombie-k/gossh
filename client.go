@@ -78,17 +78,20 @@ func NewSshClient(conf *Config) (*Client, error) {
 	}
 	client.SshConf = sshConfig
 
-	for _, v := range strings.Split(conf.RemoteHosts, ",") {
-		addrPort := strings.Split(strings.TrimSpace(v), ":")
-		addr := addrPort[0]
-		port := 22
-		if len(addrPort) == 2 {
-			port, _ = strconv.Atoi(addrPort[1])
+	remoteSlice := strings.Split(conf.RemoteHosts, ",")
+	if len(remoteSlice) > 0 {
+		for _, v := range remoteSlice {
+			addrPort := strings.Split(strings.TrimSpace(v), ":")
+			addr := addrPort[0]
+			port := 22
+			if len(addrPort) == 2 {
+				port, _ = strconv.Atoi(addrPort[1])
+			}
+			client.Infos = append(client.Infos, &Info{
+				Addr: addr,
+				Port: port,
+			})
 		}
-		client.Infos = append(client.Infos, &Info{
-			Addr: addr,
-			Port: port,
-		})
 	}
 
 	client.Modes = &ssh.TerminalModes{
